@@ -3,27 +3,65 @@ import requests
 from notion_client import Client
 import os
 from datetime import datetime
+import logging
 
-bot = telebot.TeleBot(os.environ.get('TELEGRAM_BOT_TOKEN'))
-notion = Client(auth=os.environ.get('NOTION_API_KEY'))
+# Konfigurasi logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# Validasi kredensial
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
+NOTION_API_KEY = os.environ.get('NOTION_API_KEY')
 DATABASE_ID = os.environ.get('NOTION_DATABASE_ID')
+
+logger.debug("Membaca TELEGRAM_BOT_TOKEN: %s", TELEGRAM_BOT_TOKEN)
+logger.debug("Membaca NOTION_API_KEY: %s", NOTION_API_KEY)
+logger.debug("Membaca NOTION_DATABASE_ID: %s", DATABASE_ID)
+
+if not TELEGRAM_BOT_TOKEN or not NOTION_API_KEY or not DATABASE_ID:
+    logger.error("Kredensial tidak lengkap: TELEGRAM_BOT_TOKEN=%s, NOTION_API_KEY=%s, DATABASE_ID=%s", 
+                 TELEGRAM_BOT_TOKEN, NOTION_API_KEY, DATABASE_ID)
+    raise ValueError("Kredensial TELEGRAM_BOT_TOKEN, NOTION_API_KEY, atau DATABASE_ID tidak ditemukan. Periksa file .env.")
+
+# Inisialisasi bot dan Notion client
+bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
+notion = Client(auth=NOTION_API_KEY)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
+    logger.debug("Menerima perintah /start dari user: %s", message.from_user.id)
     bot.reply_to(message, "Halo! Saya bot untuk menambah kegiatan Web3 ke Notion. Gunakan perintah /add_activity untuk menambah entri. Contoh:\n/add_activity Stride Testnet Jul2024 0x123 https://x.com/TestwayWeb3 ModerasiArtikel Selesai 30Apr2025")
 
 @bot.message_handler(commands=['add_activity'])
 def add_activity(message):
+    logger.debug("Menerima perintah /add_activity: %s", message.text)
     try:
         parts = message.text.split(' ', 8)
+        logger.debug("Memisahkan input: %s", parts)
         if len(parts) != 9:
             bot.reply_to(message, "Format salah. Gunakan: /add_activity [NamaProyek] [JenisAktivitas] [TanggalPartisipasi] [AlamatWallet] [AkunMediaSosial] [Catatan] [Status] [HadiahDiharapkan]\nContoh: /add_activity Stride Testnet Jul2024 0x123 https://x.com/TestwayWeb3 ModerasiArtikel Selesai 30Apr2025")
             return
 
         nama_proyek, jenis_aktivitas, tanggal_partisipasi, alamat_wallet, akun_media_sosial, catatan, status, hadiah_diharapkan = parts[1:9]
+        logger.debug("Data yang diambil: %s, %s, %s, %s, %s, %s, %s, %s", 
+                     nama_proyek, jenis_aktivitas, tanggal_partisipasi, alamat_wallet, 
+                     akun_media_sosial, catatan, status, hadiah_diharapkan)
 
-        tanggal_partisipasi = datetime.strptime(tanggal_partisipasi, '%b%Y').strftime('%Y-%m-%d')
-        hadiah_diharapkan = datetime.strptime(hadiah_diharapkan, '%d%b%Y').strftime('%Y-%m-%d')
+        try:
+            tanggal_partisipasi = datetime.strptime(tanggal_partisipasi, '%b%Y').strftime('%Y-%m-%d')
+        except ValueError:
+            logger.error("Format tanggal partisipasi salah: %s", tanggal_partisipasi)
+            bot.reply_to(message, "Format Tanggal Partisipasi salah. Gunakan format 'BulanTahun' (contoh: Jul2024).")
+            return
+
+        try:
+            hadiah_diharapkan = datetime.strptime(hadiah_diharapkan, '%d%b%Y').strftime('%Y-%m-%d')
+        except ValueError:
+            logger.error("Format hadiah diharapkan salah: %s", hadiah_diharapkan)
+            bot.reply_to(message, "Format Hadiah Diharapkan salah. Gunakan format 'TanggalBulanTahun' (contoh: 30Apr2025).")
+            return
+
+        logger.debug("Tanggal setelah konversi: %s, %s", tanggal_partisipasi, hadiah_diharapkan)
 
         notion.pages.create(
             parent={"database_id": DATABASE_ID},
@@ -38,8 +76,10 @@ def add_activity(message):
                 "Hadiah/Acara yang Diharapkan": {"date": {"start": hadiah_diharapkan}},
             }
         )
+        logger.debug("Berhasil menambahkan entri ke Notion")
         bot.reply_to(message, f"Berhasil menambahkan {nama_proyek} ke rekap Notion!")
     except Exception as e:
+        logger.error("Gagal menambahkan entri: %s", str(e))
         bot.reply_to(message, f"Gagal menambahkan entri: {str(e)}")
 
 bot.infinity_polling()
