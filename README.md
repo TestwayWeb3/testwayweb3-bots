@@ -1,4 +1,3 @@
-Berikut adalah versi rapi dari README.md dalam bahasa Indonesia yang telah diperbarui untuk menghilangkan semua kredensial sensitif (seperti token atau ID database Notion) agar aman untuk dipublikasikan. File ini telah diformat dengan baik untuk langsung diedit di GitHub.
 markdown
 # Panduan Instalasi Web3ActivityBot (Bahasa Indonesia)
 
@@ -260,28 +259,3 @@ Lisensi
 Proyek ini dilisensikan di bawah Lisensi MIT.
 
 ---
-
-### Langkah untuk Memperbarui di GitHub
-
-1. **Buka Repositori di GitHub:**
-   - Pergi ke repositori Anda di GitHub: `https://github.com/TestwayWeb3/testwayweb3-bots`.
-   - Klik pada file `README.md`.
-
-2. **Edit File `README.md`:**
-   - Klik ikon pensil (Edit this file) di pojok kanan atas.
-   - Hapus konten lama dan salin-tempel konten di atas ke dalam editor GitHub.
-
-3. **Commit Perubahan:**
-   - Di bagian bawah halaman, masukkan pesan commit, misalnya:
-     ```
-     Memperbarui README.md dengan panduan instalasi dalam bahasa Indonesia
-     ```
-   - Pilih opsi "Commit directly to the main branch".
-   - Klik tombol **Commit changes**.
-
-#### Catatan Tambahan
-- **Kredensial Dihapus:** Semua kredensial sensitif (seperti token GitHub, ID database Notion, dan token bot) telah dihapus atau diganti dengan placeholder (`your-github-pat`, `your-telegram-bot-token`, dll.) untuk memastikan keamanan saat dipublikasikan.
-- **Format Rapi:** File telah diformat dengan baik menggunakan heading, subheading, dan blok kode untuk memudahkan pembacaan di GitHub.
-- **Keamanan:** Pastikan Anda telah mencabut token GitHub yang terekspos sebelumnya (`ghp_****************`) dan membuat token baru untuk penggunaan di masa depan.
-
-Jika Anda memerlukan bantuan lebih lanjut untuk mengedit di GitHub atau langkah lainnya, beri tahu saya!
