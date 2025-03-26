@@ -1,4 +1,3 @@
-markdown
 # Panduan Instalasi Web3ActivityBot (Bahasa Indonesia)
 
 Panduan ini memberikan langkah-langkah terperinci untuk menginstal dan menjalankan **Web3ActivityBot** di VPS baru. Bot ini membantu Anda mencatat aktivitas Web3 (seperti testnet, airdrop) ke dalam database Notion melalui Telegram. Anda dapat memilih untuk mengikuti langkah instalasi manual atau menggunakan skrip otomatis `install.sh`.
@@ -19,7 +18,6 @@ Sebelum memulai, pastikan Anda memiliki:
 ### 1. Hubungkan ke VPS Baru Anda
 Gunakan SSH untuk terhubung ke VPS baru Anda:
 
-```bash
 ssh username@your-vps-ip
 Ganti username dengan nama pengguna VPS Anda.
 Ganti your-vps-ip dengan alamat IP VPS Anda.
@@ -257,5 +255,3 @@ Kontribusi
 Untuk berkontribusi pada bot ini, fork repositori, buat perubahan, dan ajukan pull request ke TestwayWeb3/testwayweb3-bots.
 Lisensi
 Proyek ini dilisensikan di bawah Lisensi MIT.
-
----
