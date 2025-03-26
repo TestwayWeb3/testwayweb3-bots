@@ -1,18 +1,29 @@
-Panduan Instalasi Web3ActivityBot (Bahasa Indonesia)
-Panduan ini memberikan instruksi terperinci untuk menginstal dan menjalankan Web3ActivityBot di VPS baru. Bot ini membantu Anda mencatat aktivitas Web3 (misalnya, testnet, airdrop) di database Notion menggunakan Telegram. Anda dapat mengikuti langkah-langkah instalasi manual atau menggunakan skrip otomatis install.sh.
-Prasyarat
-VPS yang menjalankan Ubuntu (misalnya, Ubuntu 20.04 atau lebih baru).
-Token bot Telegram (dapatkan dengan membuat bot melalui BotFather di Telegram).
-Kunci API Notion dan ID database (lihat Pengaturan API Notion (#pengaturan-api-notion) di bawah).
-Token Akses Pribadi GitHub (PAT) untuk mengakses repositori Anda (jika privat).
-Familiaritas dasar dengan perintah terminal Linux.
-Cadangkan file .env Anda dari VPS saat ini (berisi TELEGRAM_BOT_TOKEN, NOTION_API_KEY, dan NOTION_DATABASE_ID) sebelum VPS berakhir.
-Opsi 1: Instalasi Otomatis Menggunakan install.sh
-1. Hubungkan ke VPS Baru Anda
+Berikut adalah versi rapi dari README.md dalam bahasa Indonesia yang telah diperbarui untuk menghilangkan semua kredensial sensitif (seperti token atau ID database Notion) agar aman untuk dipublikasikan. File ini telah diformat dengan baik untuk langsung diedit di GitHub.
+markdown
+# Panduan Instalasi Web3ActivityBot (Bahasa Indonesia)
+
+Panduan ini memberikan langkah-langkah terperinci untuk menginstal dan menjalankan **Web3ActivityBot** di VPS baru. Bot ini membantu Anda mencatat aktivitas Web3 (seperti testnet, airdrop) ke dalam database Notion melalui Telegram. Anda dapat memilih untuk mengikuti langkah instalasi manual atau menggunakan skrip otomatis `install.sh`.
+
+## Prasyarat
+
+Sebelum memulai, pastikan Anda memiliki:
+
+- VPS yang menjalankan Ubuntu (misalnya, Ubuntu 20.04 atau versi lebih baru).
+- Token bot Telegram (dapatkan dengan membuat bot melalui [BotFather](https://t.me/BotFather) di Telegram).
+- Kunci API Notion dan ID database (lihat bagian [Pengaturan API Notion](#pengaturan-api-notion)).
+- Token Akses Pribadi GitHub (PAT) untuk mengakses repositori (jika repositori bersifat privat).
+- Pengetahuan dasar tentang perintah terminal Linux.
+- Cadangan file `.env` dari VPS saat ini (berisi `TELEGRAM_BOT_TOKEN`, `NOTION_API_KEY`, dan `NOTION_DATABASE_ID`) sebelum VPS berakhir.
+
+## Opsi 1: Instalasi Otomatis Menggunakan `install.sh`
+
+### 1. Hubungkan ke VPS Baru Anda
 Gunakan SSH untuk terhubung ke VPS baru Anda:
-bash
+
+```bash
 ssh username@your-vps-ip
-Ganti username dengan nama pengguna VPS Anda dan your-vps-ip dengan alamat IP VPS Anda.
+Ganti username dengan nama pengguna VPS Anda.
+Ganti your-vps-ip dengan alamat IP VPS Anda.
 2. Kloning Repositori
 Kloning repositori bot dari GitHub:
 bash
@@ -31,10 +42,10 @@ chmod +x install.sh
 Jalankan skrip:
 bash
 ./install.sh
-Ikuti petunjuk:
+Ikuti petunjuk yang muncul:
 Jika repositori privat, masukkan PAT GitHub Anda saat diminta.
-Jika file .env tidak ada atau Anda memilih untuk menimpanya, masukkan token bot Telegram, kunci API Notion, dan ID database Notion (Anda seharusnya telah mencadangkan ini dari VPS saat ini).
-Uji bot di Telegram saat diminta dengan mengirimkan /start dan /add_activity, lalu konfirmasi apakah berfungsi.
+Jika file .env tidak ada atau Anda memilih untuk menimpanya, masukkan token bot Telegram, kunci API Notion, dan ID database Notion (pastikan Anda telah mencadangkan informasi ini dari VPS sebelumnya).
+Uji bot di Telegram saat diminta dengan mengirimkan perintah /start dan /add_activity, lalu konfirmasi apakah bot berfungsi dengan baik.
 4. Verifikasi Bot
 Setelah skrip selesai, periksa status bot:
 bash
@@ -42,21 +53,22 @@ pm2 list
 Lihat log jika diperlukan:
 bash
 pm2 logs web3-bot
-Opsi 2: Langkah Instalasi Manual
+Opsi 2: Instalasi Manual
 1. Hubungkan ke VPS Baru Anda
 Gunakan SSH untuk terhubung ke VPS baru Anda:
 bash
 ssh username@your-vps-ip
-Ganti username dengan nama pengguna VPS Anda dan your-vps-ip dengan alamat IP VPS Anda.
+Ganti username dengan nama pengguna VPS Anda.
+Ganti your-vps-ip dengan alamat IP VPS Anda.
 2. Perbarui Sistem
-Pastikan sistem Anda terbarui:
+Pastikan sistem Anda sudah terbarui:
 bash
 sudo apt update && sudo apt upgrade -y
 3. Instal Perangkat Lunak yang Diperlukan
 Instal Python 3, pip, dan Git:
 bash
 sudo apt install python3 python3-pip git -y
-Instal Node.js dan npm (diperlukan untuk PM2, manajer proses untuk menjaga bot tetap berjalan):
+Instal Node.js dan npm (diperlukan untuk PM2, manajer proses agar bot tetap berjalan):
 bash
 sudo apt install nodejs npm -y
 Instal PM2 secara global:
@@ -81,7 +93,8 @@ source venv/bin/activate
 Instal paket Python yang diperlukan menggunakan requirements.txt:
 bash
 pip install -r requirements.txt
-Jika requirements.txt tidak ada, buat dengan konten berikut:
+Jika requirements.txt tidak ada, buat file tersebut dengan konten berikut:
+plaintext
 python-telegram-bot==20.0
 notion-client
 python-dotenv
@@ -94,16 +107,16 @@ Buat file .env di direktori proyek:
 bash
 nano ~/testwayweb3-bots/.env
 Tambahkan variabel lingkungan berikut (gunakan nilai dari file .env yang telah dicadangkan):
+plaintext
 TELEGRAM_BOT_TOKEN="your-telegram-bot-token"
 NOTION_API_KEY="your-notion-api-key"
-NOTION_DATABASE_ID="Notion-database-ID"
+NOTION_DATABASE_ID="your-notion-database-id"
 TELEGRAM_BOT_TOKEN: Token bot Telegram Anda dari BotFather.
 NOTION_API_KEY: Kunci API Notion Anda (lihat Pengaturan API Notion (#pengaturan-api-notion)).
-NOTION_DATABASE_ID: ID database Notion Anda (Notion-database-ID).
-Simpan file (Ctrl+O, Enter, Ctrl+X).
+NOTION_DATABASE_ID: ID database Notion Anda.
+Simpan file (Ctrl+O, Enter, Ctrl+X di nano).
 7. Verifikasi Struktur Database Notion
-Buka database Notion Anda: Database Notion.
-Pastikan database memiliki kolom berikut dengan tipe dan opsi yang benar:
+Buka database Notion Anda. Pastikan database memiliki kolom berikut dengan tipe dan opsi yang benar:
 Nama Proyek: Tipe Title
 Jenis Aktivitas: Tipe Select (opsi: Testnet, Node, Airdrop, Waitlist, Staking, Daily, Minting)
 Jaringan: Tipe Select (opsi: SOL, BSC, ETH, BASE, OP, MONAD, AVAX, ZK, LINEA, BTC, SUI, APTOS)
@@ -119,8 +132,7 @@ Jika ada opsi atau kolom yang hilang atau berbeda, perbarui database atau modifi
 Jalankan bot secara manual untuk memastikan berfungsi:
 bash
 python3 telegram_bot.py
-Buka Telegram, cari bot Anda, dan kirim /start serta /add_activity. Ikuti petunjuk untuk memastikan bot berjalan dengan benar dan mencatat entri di database Notion Anda.
-Periksa database Notion untuk memastikan entri ditambahkan dengan nilai yang benar.
+Buka Telegram, cari bot Anda, dan kirim perintah /start serta /add_activity. Ikuti petunjuk untuk memastikan bot berjalan dengan benar dan mencatat entri di database Notion Anda. Periksa database Notion untuk memastikan entri ditambahkan dengan nilai yang benar.
 9. Jalankan Bot dengan PM2
 Jika bot berjalan dengan sukses, atur agar berjalan terus-menerus menggunakan PM2:
 bash
@@ -178,99 +190,98 @@ bash
 export GITHUB_PAT=your-github-pat
 git push https://${GITHUB_PAT}@github.com/TestwayWeb3/testwayweb3-bots.git main
 unset GITHUB_PAT
-Ganti your-github-pat dengan PAT GitHub Anda. Jika Anda tidak memiliki PAT, buat satu:
+Jika Anda tidak memiliki PAT, buat satu:
 Buka GitHub Settings > Developer settings > Personal access tokens.
 Klik "Generate new token," pilih scope repo, dan buat token.
 6. Verifikasi Push
-Periksa repositori GitHub (https://github.com/TestwayWeb3/testwayweb3-bots) di browser Anda untuk memastikan file yang diperbarui ada di branch main.
-Alternatifnya, periksa riwayat commit di VPS:
+Periksa repositori GitHub (https://github.com/TestwayWeb3/testwayweb3-bots) di browser Anda untuk memastikan file yang diperbarui ada di branch main. Alternatifnya, periksa riwayat commit di VPS:
 bash
 git log --oneline -n 1
 Pengaturan API Notion
-Buat Integrasi Notion:
+1. Buat Integrasi Notion
 Buka Notion Integrations.
 Klik "New Integration," beri nama (misalnya, "Web3ActivityBot"), dan submit.
 Salin "Internal Integration Token" (ini adalah NOTION_API_KEY Anda).
-Bagikan Database Anda dengan Integrasi:
-Buka database Notion Anda: Database Notion.
+2. Bagikan Database Anda dengan Integrasi
+Buka database Notion Anda.
 Klik "Share" di pojok kanan atas.
 Aktifkan "Share to web" jika diperlukan, dan di bawah "Share with an integration," pilih integrasi Anda (misalnya, "Web3ActivityBot").
 Pastikan integrasi memiliki akses penuh (edit, komentar, dll.).
-Verifikasi ID Database:
-ID database di URL adalah (your-notion-database-id). Pastikan ini sesuai dengan NOTION_DATABASE_ID di file .env Anda.
+3. Verifikasi ID Database
+ID database dapat ditemukan di URL database Notion Anda. Pastikan ini sesuai dengan NOTION_DATABASE_ID di file .env Anda.
 Pemecahan Masalah
-Bot Tidak Merespons di Telegram:
-Periksa log: pm2 logs web3-bot.
+Bot Tidak Merespons di Telegram
+Periksa log:
+bash
+pm2 logs web3-bot
 Pastikan TELEGRAM_BOT_TOKEN di .env benar dan bot tidak diblokir di Telegram.
-Pastikan bot berjalan: pm2 list.
-Kesalahan API Notion (misalnya, "Property not found"):
+Pastikan bot berjalan:
+bash
+pm2 list
+Kesalahan API Notion (misalnya, "Property not found")
 Pastikan NOTION_API_KEY dan NOTION_DATABASE_ID di .env benar.
 Pastikan database dibagikan dengan integrasi (lihat Pengaturan API Notion (#pengaturan-api-notion)).
 Periksa struktur database Notion (lihat Verifikasi Struktur Database Notion (#verifikasi-struktur-database-notion)) untuk memastikan semua kolom dan opsi sesuai dengan harapan bot.
-Masalah Dependensi:
-Pastikan semua paket terinstal: pip install -r requirements.txt.
+Masalah Dependensi
+Pastikan semua paket terinstal:
+bash
+pip install -r requirements.txt
 Jika ada paket yang hilang, instal secara manual (misalnya, pip install python-telegram-bot==20.0).
-Restart VPS:
+Restart VPS
 Jika VPS restart, PM2 seharusnya secara otomatis menjalankan ulang bot jika Anda mengatur pm2 startup dan menjalankan pm2 save.
-Versi Bot Lama Berjalan:
-Hentikan semua instance bot: pm2 delete web3-bot.
-Jalankan bot secara manual untuk menguji: python3 telegram_bot.py.
-Restart dengan PM2: pm2 start ~/testwayweb3-bots/telegram_bot.py --name "web3-bot" --interpreter ~/testwayweb3-bots/venv/bin/python3.
-Kesalahan Push Git:
+Versi Bot Lama Berjalan
+Hentikan semua instance bot:
+bash
+pm2 delete web3-bot
+Jalankan bot secara manual untuk menguji:
+bash
+python3 telegram_bot.py
+Restart dengan PM2:
+bash
+pm2 start ~/testwayweb3-bots/telegram_bot.py --name "web3-bot" --interpreter ~/testwayweb3-bots/venv/bin/python3
+Kesalahan Push Git
 "remote: Permission denied": PAT GitHub mungkin salah atau kadaluarsa. Buat PAT baru dan coba lagi.
-"remote: Repository not found": Pastikan URL repositori dan izin akses Anda.
+"remote: Repository not found": Pastikan URL repositori dan izin akses Anda benar.
 Sebelum VPS Saat Ini Berakhir
-Cadangkan File .env:
+Cadangkan File .env
 Salin file .env ke lokasi aman (misalnya, komputer lokal Anda):
 bash
 scp username@your-vps-ip:~/testwayweb3-bots/.env ~/backup_env
 Ganti username dan your-vps-ip dengan detail VPS Anda.
 File ini berisi TELEGRAM_BOT_TOKEN, NOTION_API_KEY, dan NOTION_DATABASE_ID, yang akan Anda perlukan untuk VPS baru.
-Cadangkan Perubahan Kode Kustom:
+Cadangkan Perubahan Kode Kustom
 Jika Anda telah membuat perubahan pada telegram_bot.py, cadangkan file:
 bash
 scp username@your-vps-ip:~/testwayweb3-bots/telegram_bot.py ~/backup_telegram_bot.py
 Alternatifnya, commit dan push perubahan ke GitHub (lihat Mendorong Perubahan ke GitHub (#mendorong-perubahan-ke-github)).
 Kontribusi
-Untuk berkontribusi pada bot, fork repositori, buat perubahan, dan ajukan pull request ke TestwayWeb3/testwayweb3-bots.
+Untuk berkontribusi pada bot ini, fork repositori, buat perubahan, dan ajukan pull request ke TestwayWeb3/testwayweb3-bots.
 Lisensi
 Proyek ini dilisensikan di bawah Lisensi MIT.
-Langkah untuk Memperbarui dan Mendorong ke GitHub
-Sekarang, mari kita perbarui file README.md untuk menghapus token yang menyebabkan masalah push protection dan mendorong perubahan ke GitHub.
-Langkah 1: Perbarui README.md
-Buka file README.md:
-bash
-nano README.md
-Cari token (your-github-API-token). Berdasarkan pesan kesalahan, token ada di baris 239, dalam bagian "Konfigurasi Variabel Lingkungan". Anda akan menemukan baris seperti:
-export GITHUB_PAT="your-github-pat"
-Namun, dalam kasus ini, token asli (your-github-API-token) mungkin telah dimasukkan secara tidak sengaja di bagian lain. Cari token di seluruh file:
-bash
-grep "your-github-API-token" README.md
-Ganti token dengan placeholder your-github-pat di semua instance, termasuk di bagian "Mendorong Perubahan ke GitHub" dan "Konfigurasi Variabel Lingkungan".
-Simpan file (Ctrl+O, Enter, Ctrl+X).
-Langkah 2: Amend Commit dan Push
-Amend commit terbaru:
-bash
-git commit --amend
-Stage README.md yang diperbarui:
-bash
-git add README.md
-Simpan commit yang di-amend (tutup editor, misalnya, Ctrl+X di nano).
-Push perubahan:
-bash
-export GITHUB_PAT=(your-github-API-token)
-git push https://${GITHUB_PAT}@github.com/TestwayWeb3/testwayweb3-bots.git main
-unset GITHUB_PAT
-Langkah 3: Cabut Token dan Buat yang Baru
-Cabut token yang terekspos:
-Buka GitHub Settings > Developer settings > Personal access tokens.
-buat token baru dengan scope repo.
-Gunakan token baru untuk push di masa depan.
-Catatan Tambahan
-File install.sh: Skrip ini sudah diperbarui sebelumnya dan tidak memerlukan perubahan lebih lanjut berdasarkan permintaan Anda.
-Keamanan: Pastikan untuk selalu menggunakan placeholder dalam dokumentasi dan tidak memasukkan token asli di file yang di-commit ke GitHub.
-Verifikasi: Setelah push berhasil, periksa repositori GitHub untuk memastikan README.md tidak lagi mengandung token.
-Catatan Survei: Analisis dan Implementasi Mendalam
-Bagian ini memberikan analisis mendalam tentang masalah yang dihadapi dan langkah-langkah untuk mengatasinya.
-Latar Belakang dan Konteks
-Pengguna meminta terjemahan panduan instalasi ke dalam bahasa Indonesia dan juga menghadapi masalah berulang dengan push protection GitHub karena token akses pribadi yang terekspos di README.md. Panduan telah diterjemahkan, dan langkah-langkah diberikan untuk menghapus token dan mendorong perubahan.
+
+---
+
+### Langkah untuk Memperbarui di GitHub
+
+1. **Buka Repositori di GitHub:**
+   - Pergi ke repositori Anda di GitHub: `https://github.com/TestwayWeb3/testwayweb3-bots`.
+   - Klik pada file `README.md`.
+
+2. **Edit File `README.md`:**
+   - Klik ikon pensil (Edit this file) di pojok kanan atas.
+   - Hapus konten lama dan salin-tempel konten di atas ke dalam editor GitHub.
+
+3. **Commit Perubahan:**
+   - Di bagian bawah halaman, masukkan pesan commit, misalnya:
+     ```
+     Memperbarui README.md dengan panduan instalasi dalam bahasa Indonesia
+     ```
+   - Pilih opsi "Commit directly to the main branch".
+   - Klik tombol **Commit changes**.
+
+#### Catatan Tambahan
+- **Kredensial Dihapus:** Semua kredensial sensitif (seperti token GitHub, ID database Notion, dan token bot) telah dihapus atau diganti dengan placeholder (`your-github-pat`, `your-telegram-bot-token`, dll.) untuk memastikan keamanan saat dipublikasikan.
+- **Format Rapi:** File telah diformat dengan baik menggunakan heading, subheading, dan blok kode untuk memudahkan pembacaan di GitHub.
+- **Keamanan:** Pastikan Anda telah mencabut token GitHub yang terekspos sebelumnya (`ghp_****************`) dan membuat token baru untuk penggunaan di masa depan.
+
+Jika Anda memerlukan bantuan lebih lanjut untuk mengedit di GitHub atau langkah lainnya, beri tahu saya!
