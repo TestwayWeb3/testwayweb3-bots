@@ -232,7 +232,7 @@ Buka GitHub Settings > Developer settings > Personal access tokens.
 Klik "Generate new token," pilih scope repo, dan buat token.
 
 ### 6. Verifikasi Push
-Periksa repositori GitHub (https://github.com/TestwayWeb3/testwayweb3-bots) di browser Anda untuk memastikan file yang diperbarui ada di branch main. Alternatifnya, periksa riwayat commit di VPS:
+Periksa repositori [GitHub](https://github.com/TestwayWeb3/testwayweb3-bots) di browser Anda untuk memastikan file yang diperbarui ada di branch main. Alternatifnya, periksa riwayat commit di VPS:
 ```bash
 git log --oneline -n 1
 ```
@@ -301,7 +301,9 @@ Jika Anda telah membuat perubahan pada telegram_bot.py, cadangkan file:
 scp username@your-vps-ip:~/testwayweb3-bots/telegram_bot.py ~/backup_telegram_bot.py
 ```
 Alternatifnya, commit dan push perubahan ke GitHub (lihat Mendorong Perubahan ke GitHub (#mendorong-perubahan-ke-github)).
-Kontribusi
-Untuk berkontribusi pada bot ini, fork repositori, buat perubahan, dan ajukan pull request ke [TestwayWeb3](https://github.com/TestwayWeb3/testwayweb3-bots).
-Lisensi
-Proyek ini dilisensikan di bawah Lisensi [MIT](https://opensource.org/licenses/MIT).
+
+## Kontribusi
+### Untuk berkontribusi pada bot ini, fork repositori, buat perubahan, dan ajukan pull request ke [TestwayWeb3](https://github.com/TestwayWeb3/testwayweb3-bots).
+
+## Lisensi
+### Proyek ini dilisensikan di bawah Lisensi [MIT](https://opensource.org/licenses/MIT).
