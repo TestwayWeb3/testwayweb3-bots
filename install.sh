@@ -1,13 +1,22 @@
 #!/bin/bash
 
+# Baca file .env
+if [ -f .env ]; then
+    export $(grep -v '^#' .env | xargs)
+fi
+
 # Perbarui sistem dan instal dependensi dasar
 echo "Memperbarui sistem dan menginstal dependensi..."
 sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get install -y python3 python3-pip git ufw nodejs npm
+sudo apt-get install -y python3 python3-pip python3-venv git ufw
+
+# Instal Node.js v18
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
 # Klone repositori dari GitHub
 echo "Mengkloning repositori dari GitHub..."
-git clone https://github.com/testwayweb3-bots/testwayweb3-bots.git
+git clone https://${GITHUB_PAT}@github.com/TestwayWeb3/testwayweb3-bots.git
 cd testwayweb3-bots
 
 # Buat dan aktifkan virtual environment
