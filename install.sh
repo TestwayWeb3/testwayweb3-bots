@@ -3,7 +3,7 @@
 # Perbarui sistem dan instal dependensi dasar
 echo "Memperbarui sistem dan menginstal dependensi..."
 sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get install -y python3 python3-pip git ufw
+sudo apt-get install -y python3 python3-pip git ufw nodejs npm
 
 # Klone repositori dari GitHub
 echo "Mengkloning repositori dari GitHub..."
